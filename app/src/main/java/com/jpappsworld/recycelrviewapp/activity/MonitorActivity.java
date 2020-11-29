@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import com.jpappsworld.recycelrviewapp.R;
 import com.jpappsworld.recycelrviewapp.adapter.AndroidAdapter;
+import com.jpappsworld.recycelrviewapp.adapter.ISeekBarListener;
 import com.jpappsworld.recycelrviewapp.adapter.MonitorAdapter;
 import com.jpappsworld.recycelrviewapp.domain.Monitors;
 import com.jpappsworld.recycelrviewapp.domain.Movies;
 import com.jpappsworld.recycelrviewapp.domain.Versions;
 import com.jpappsworld.recycelrviewapp.webservice.ApiClient;
 import com.jpappsworld.recycelrviewapp.webservice.ApiInterface;
+import com.jpappsworld.recycelrviewapp.webservice.rest.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +26,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MonitorActivity extends AppCompatActivity {
+public class MonitorActivity extends AppCompatActivity implements ISeekBarListener {
 
     private RecyclerView rvMonitors;
     private MonitorAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
         initializeViews();
+
         setAdapter(getAllMonitors());
-        doTask();
+        //doTask();
     }
 
     private void initializeViews() {
@@ -48,7 +52,7 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
     private void setAdapter(List<Monitors> monitorsList){
-        adapter = new MonitorAdapter(monitorsList);
+        adapter = new MonitorAdapter(monitorsList, this);
         rvMonitors.setAdapter(adapter);
     }
 
@@ -80,5 +84,38 @@ public class MonitorActivity extends AppCompatActivity {
                 Log.e("TAG","Response = "+t.toString());
             }
         });
+    }
+
+    private void sendUserData() {
+
+        User user = new User("morpheus", "leader");
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<User> call1 = apiService.createUser(user);
+        call1.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User users = response.body();
+
+                Toast.makeText(getApplicationContext(),
+                        users.name + " " + users.job
+                                + " " + users.id + " " + users.createdAt,
+                        Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    @Override
+    public void seekBarChanged(int seekPosition) {
+
+        Toast.makeText(getApplicationContext(),"seekValue:" +
+                        seekPosition,
+                Toast.LENGTH_SHORT).show();
+        sendUserData();
     }
 }

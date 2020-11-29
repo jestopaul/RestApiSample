@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jpappsworld.recycelrviewapp.R;
@@ -18,6 +19,7 @@ public class MonitorHolder extends RecyclerView.ViewHolder {
     public ImageView expandMore;
     public ImageView expandLess;
     public LinearLayout ll_brightness;
+    public AppCompatSeekBar seekBar;
 
 
     public MonitorHolder(@NonNull View itemView) {
@@ -28,6 +30,7 @@ public class MonitorHolder extends RecyclerView.ViewHolder {
         expandMore = itemView.findViewById(R.id.iv_expand_more);
         expandLess = itemView.findViewById(R.id.iv_expand_less);
         ll_brightness = itemView.findViewById(R.id.ll_brightness);
+        seekBar = itemView.findViewById(R.id.seekBar);
 
     }
 }

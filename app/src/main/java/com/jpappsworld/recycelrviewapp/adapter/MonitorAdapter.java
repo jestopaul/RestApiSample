@@ -3,6 +3,7 @@ package com.jpappsworld.recycelrviewapp.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,9 +18,11 @@ import java.util.List;
 
 public class MonitorAdapter extends RecyclerView.Adapter<MonitorHolder> {
     private List<Monitors> monitorsList;
+    private ISeekBarListener iSeekBarListener;
 
-    public MonitorAdapter(List<Monitors> monitorsList) {
+    public MonitorAdapter(List<Monitors> monitorsList, ISeekBarListener iSeekBarListener) {
         this.monitorsList = monitorsList;
+        this.iSeekBarListener = iSeekBarListener;
     }
 
     @NonNull
@@ -51,6 +54,23 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorHolder> {
                 holder.ll_brightness.setVisibility(View.GONE);
                 holder.expandLess.setVisibility(View.GONE);
                 holder.expandMore.setVisibility(View.VISIBLE);
+            }
+        });
+
+        holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                iSeekBarListener.seekBarChanged(i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 

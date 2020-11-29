@@ -6,7 +6,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
 
-    public static String BASE_URL = "https://velmm.com/apis/";
+    //public static String BASE_URL = "https://velmm.com/apis/";
+    public static String BASE_URL = "https://reqres.in/api/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {
